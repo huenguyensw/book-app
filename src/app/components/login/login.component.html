@@ -1,0 +1,16 @@
+<!-- login.component.html -->
+<div class="container mt-5">
+  <div class="card p-4">
+    <h3>Login</h3>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <input formControlName="useremail" class="form-control" placeholder="Email" type="email"  required />
+      </div>
+      <div class="mb-3">
+        <input formControlName="password" name="password" type="password" class="form-control" placeholder="Password" required />
+      </div>
+      <button class="btn btn-primary"  [disabled]="loginForm.invalid">Login</button>
+      <div *ngIf="error" class="text-danger mt-2">{{ error }}</div>
+    </form>
+  </div>
+</div>
