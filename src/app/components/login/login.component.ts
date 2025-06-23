@@ -1,8 +1,8 @@
 // login.component.ts
-import { Component } from '@angular/core';
+import { Component , ChangeDetectorRef} from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -13,17 +13,32 @@ import { CommonModule } from '@angular/common';
 export class LoginComponent {
     loginForm: FormGroup;
     error: string | null = null;
+    showAuthError = false;
 
     constructor(
         private fb: FormBuilder,
         private authService: AuthService,
-        private router: Router
+        private router: Router,
+        private route: ActivatedRoute,
+        private cd: ChangeDetectorRef
     ) {
         this.loginForm = this.fb.group({
             useremail: ['', Validators.required],
             password: ['', Validators.required]
         });
+
+        // clear any existing error message
+        this.loginForm.valueChanges.subscribe(() => {
+            this.error = null;
+            this.showAuthError = false;
+        });
     }
+
+ ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.showAuthError = params['authError'] === 'true';
+    });
+  }
 
     onSubmit() {
         if (this.loginForm.valid) {
@@ -32,7 +47,6 @@ export class LoginComponent {
                 next: () => {
                     console.log('Login successful, navigating to /books...');
                     this.router.navigateByUrl('/books').then(success => {
-                        console.log('Navigation success:', success);
                     }).catch(err => {
                         console.error('Navigation error:', err);
                     });
@@ -45,6 +59,8 @@ export class LoginComponent {
                     this.error = 'Invalid email or password';
                 }
             });
+        } else {
+           this.loginForm.markAllAsTouched();
         }
     }
 }

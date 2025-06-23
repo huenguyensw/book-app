@@ -1,0 +1,11 @@
+<div class="container mt-4">
+  <h2>Mina citat</h2>
+  <div *ngFor="let quote of quotes" class="card mb-3">
+    <div class="card-body">
+      <blockquote class="blockquote mb-0">
+        <p>{{ quote.text }}</p>
+        <footer class="blockquote-footer">{{ quote.author }}</footer>
+      </blockquote>
+    </div>
+  </div>
+</div>

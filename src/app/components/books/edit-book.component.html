@@ -1,0 +1,19 @@
+<div class="container mt-5">
+    <div class="card p-4">
+        <h3>Edit Book</h3>
+        <form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+                <input formControlName="title" class="form-control" placeholder="Title" required />
+            </div>
+            <div class="mb-3">
+                <input formControlName="author" class="form-control" placeholder="Author" required />
+            </div>
+            <div class="mb-3">
+                <input formControlName="genre" class="form-control" placeholder="Genre" required />
+            </div>
+            <div class="mb-3">
+                <input formControlName="publishedDate" class="form-control" placeholder="Published Date" required />
+            </div>
+            <button class="btn btn-primary" [disabled]="bookForm.invalid">Update Book</button>
+        </form>
+    </div>

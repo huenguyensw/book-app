@@ -1,1 +1,37 @@
+:root {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+}
+
+.dark-theme {
+    --bg-color: #121212;
+    --text-color: #ffffff;
+
+    // override other dark-specific styles
+    a,
+    h1,
+    h2,
+    h3 {
+        color: #ffffff;
+    }
+
+    // Bootstrap overrides if needed
+    .navbar {
+        background-color: #1f1f1f !important;
+    }
+
+    .table {
+        background-color: #1a1a1a;
+        color: #ffffff;
+    }
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 /* You can add global styles to this file, and also import other style files */
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

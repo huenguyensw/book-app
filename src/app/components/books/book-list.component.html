@@ -1,0 +1,41 @@
+<!-- book-list.component.html -->
+<div class="container mt-4">
+  <h2 class="text-center">Böcker</h2>
+  <a class="btn btn-success mb-3" routerLink="/books/add">Lägg till ny bok</a>
+
+  <div *ngIf="loading" class="text-center">
+     <div class="spinner-border text-primary" role="status">Loading books...</div>
+  </div>
+  <!-- <pre>Books : {{ books | json }}</pre> -->
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+
+  <div class="table-responsive">
+    <table *ngIf="!loading && !error" class="table table-striped">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Genre</th>
+          <th>Published Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="books.length === 0">
+          <td colspan="5" class="text-center">No books available.</td>
+        </tr>
+        <tr *ngFor="let book of books">
+          <td>{{ book.title }}</td>
+          <td>{{ book.author }}</td>
+          <td>{{ book.genre }}</td>
+          <td>{{ book.publishedDate | date }}</td>
+          <td>
+            <a [routerLink]="['/books/edit', book._id || book.id]">Redigera</a> |
+            <a href="#" (click)="deleteBook(book._id || book.id); $event.preventDefault();">Radera</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

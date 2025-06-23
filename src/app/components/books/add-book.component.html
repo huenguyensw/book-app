@@ -1,0 +1,24 @@
+<!-- add-book-form.component.html -->
+<div class="container mt-5">
+    <div class="card p-4">
+        <h3>Add Book</h3>
+        <form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+                <input formControlName="title" class="form-control" placeholder="Titel"  />
+            </div>
+            <div class="mb-3">
+                <input formControlName="author" class="form-control" placeholder="Författare" />
+            </div>
+            <div class="mb-3">
+                <input formControlName="genre" class="form-control" placeholder="Genre"  />
+            </div>
+            <div class="mb-3">
+                <label for="publishedDate" class="form-label">Publiceringsdatum</label>
+                <input formControlName='publishedDate' class="form-control" placeholder="publishedDate" type="date"  />
+                <div *ngIf="bookForm.get('publishedDate')?.invalid && bookForm.get('publishedDate')?.touched" class="text-danger">
+                     Ange ett giltig date.
+                </div>
+            </div>
+            <button class="btn btn-primary" [disabled]="bookForm.invalid">Lägg till bok</button>
+        </form>
+    </div>
