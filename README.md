@@ -1,59 +1,40 @@
 # BookApp
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.1.
+Ett Angular-projekt som fungerar som frontend för Book App - en fullstackapplikation där användare kan logga in, hantera böcker och se inspirerande citat. Backend är byggd i .NET och finns i ett separat repo.
 
-## Development server
+## Funktioner & UI
 
-To start a local development server, run:
+- Inloggning med e-post & lösenord
+- Lista, lägg till, redigera & ta bort böcker
+- Citat-sida
+- Skyddade sidor (AuthGuard)
+- **Toggle-switch** i navbar för växling av t.ex. dark/light-läge (eller annan funktion)
+- **Responsivt gränssnitt**: fungerar på mobil, surfplatta och desktop
+
+## Utveckling server
+
+Starta en lokal utvecklings server, kör:
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+När serven är igång, öppna din webläsare och navigera till `http://localhost:4200/`. Applikationen laddas om automatiskt när du ändrar någon av källfilerna.
 
-## Code scaffolding
+## Live-länk
+- Frontend (Vercel): [https://book-app-frontend.vercel.app](https://book-app-frontend.vercel.app)
+- Backend API (Render): [https://bookapi-8cvo.onrender.com](https://bookapi-8cvo.onrender.com)
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
 
-```bash
-ng generate component component-name
-```
+## Testa liveversionen
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+1. Besök frontend-länken:
+   [https://book-app-frontend.vercel.app](https://book-app-frontend.vercel.app)
+  
+2. Logga in med testkontot:
+    
+```json
+{
+  "email": "test@example.com",
+  "password": "MySecret123!"
+}
