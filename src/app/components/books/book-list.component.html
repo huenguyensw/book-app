@@ -1,10 +1,10 @@
 <!-- book-list.component.html -->
 <div class="container mt-4">
-  <h2 class="text-center">Böcker</h2>
+  <p class="text-center">Hantera dina böcker här.</p>
   <a class="btn btn-success mb-3  add-book-button" routerLink="/books/add">Lägg till ny bok</a>
 
   <div *ngIf="loading" class="text-center">
-     <div class="spinner-border text-primary" role="status">Loading books...</div>
+    <div class="spinner-border text-primary" role="status">Laddar böcker...</div>
   </div>
   <!-- <pre>Books : {{ books | json }}</pre> -->
   <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
@@ -14,16 +14,16 @@
     <table *ngIf="!loading && !error" class="table table-striped">
       <thead>
         <tr>
-          <th>Title</th>
-          <th>Author</th>
+          <th>Titel</th>
+          <th>Författare</th>
           <th>Genre</th>
-          <th>Published Date</th>
-          <th>Actions</th>
+          <th>Publiceringsdatum</th>
+          <th>Åtgärder</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngIf="books.length === 0">
-          <td colspan="5" class="text-center">No books available.</td>
+          <td colspan="5" class="text-center">Inga böcker tillgängliga.</td>
         </tr>
         <tr *ngFor="let book of books">
           <td>{{ book.title }}</td>
@@ -31,9 +31,15 @@
           <td>{{ book.genre }}</td>
           <td>{{ book.publishedDate | date }}</td>
           <td>
-            <a [routerLink]="['/books/edit', book._id || book.id]">Redigera</a> |
-            <a href="#" (click)="deleteBook(book._id || book.id); $event.preventDefault();">Radera</a>
+            <a [routerLink]="['/books/edit', book._id || book.id]" title="Redigera">
+              <fa-icon [icon]="faEdit"></fa-icon>
+            </a>
+            |
+            <a href="#" (click)="deleteBook(book._id || book.id); $event.preventDefault();" title="Radera">
+              <fa-icon [icon]="faTrash" class="text-danger"></fa-icon>
+            </a>
           </td>
+
         </tr>
       </tbody>
     </table>

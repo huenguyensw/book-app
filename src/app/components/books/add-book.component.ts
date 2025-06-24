@@ -31,10 +31,10 @@ export class AddBookForm {
   ) {
     this.bookForm = this.fb.group({
       Id: [this.generateValidObjectId()],
-      title: ['', Validators.required],
-      author: ['', Validators.required],
-      genre: ['', Validators.required],
-      publishedDate: ['', Validators.required]
+      title: ['', [Validators.required]],
+      author: ['', [Validators.required]],
+      genre: ['', [Validators.required]],
+      publishedDate: ['', [Validators.required]]
     });
   }
 

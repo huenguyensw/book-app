@@ -23,10 +23,10 @@ export class EditBookForm implements OnInit {
     ) {
         this.bookForm = this.fb.group({
             id: [''], // Assuming you have an 'id' field in your form
-            title: ['', Validators.required],
-            author: ['', Validators.required],
-            genre: ['', Validators.required],
-            publishedDate: ['', Validators.required]
+            title: ['', [Validators.required]],
+            author: ['', [Validators.required]],
+            genre: ['', [Validators.required]],
+            publishedDate: ['', [Validators.required]]
         });
     }
 

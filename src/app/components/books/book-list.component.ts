@@ -6,17 +6,27 @@ import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faBook } from '@fortawesome/free-solid-svg-icons';
+
 
 @Component({
     selector: 'app-book-list',
     standalone: true,
-    imports: [CommonModule, RouterModule],
-    templateUrl: './book-list.component.html'
+    imports: [CommonModule, RouterModule, FontAwesomeModule],
+    templateUrl: './book-list.component.html',
+    styleUrls: ['./book-list.component.scss'],
 })
 export class BookListComponent implements OnInit {
     books: any[] = [];
     loading: boolean = true;
     error: string | null = null;
+    faEdit = faEdit; // FontAwesome icon for edit action
+    faTrash = faTrash; // FontAwesome icon for delete action
+    faBook = faBook; // FontAwesome icon for book
+
 
     constructor(
         private bookService: BookService,
@@ -68,8 +78,8 @@ export class BookListComponent implements OnInit {
         const dialogRef = this.dialog.open(ConfirmDialogComponent, {
             width: '400px',
             data: {
-                title: 'Delete Book',
-                message: 'Are you sure you want to delete this book?'
+                title: 'Radera bok',
+                message: 'Är du säker på att du vill radera den här boken?'
             }
         });
         dialogRef.afterClosed().subscribe(result => {
@@ -82,7 +92,7 @@ export class BookListComponent implements OnInit {
             },
             error: (err) => {
                  console.error('DELETE failed:', err);
-                this.error = 'Failed to delete book';
+                this.error = 'Misslyckades att radera boken';
                 this.loading = false;
 
             }
