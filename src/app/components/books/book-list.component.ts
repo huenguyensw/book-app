@@ -33,7 +33,7 @@ export class BookListComponent implements OnInit {
         private router: Router,
         private cdr: ChangeDetectorRef,
         private dialog: MatDialog
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         // Load initially
@@ -48,18 +48,13 @@ export class BookListComponent implements OnInit {
     }
 
     loadBooks() {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            this.error = 'You must be logged in to view books.';
-            this.loading = false;
-            return;
-        }
-        console.log('Token is...', token);
+
         this.loading = true;
         this.error = null;
+
         this.bookService.getBooks().subscribe({
             next: (data) => {
-                console.log('Fetched books:', data);
+
                 this.books = data;
                 this.loading = false;
                 // Force Angular to check the UI
@@ -67,7 +62,9 @@ export class BookListComponent implements OnInit {
             },
             error: (err) => {
                 console.error('Failed to load books:', err);
-                this.error = 'Failed to load books';
+                this.error = err.status === 401
+                    ? 'Du måste logga in för att se böckerna'
+                    : 'Misslyckades att hämta böcker';
                 this.loading = false;
                 this.cdr.detectChanges();
             }
@@ -85,20 +82,20 @@ export class BookListComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
                 this.bookService.deleteBook(id).subscribe({
-            next: () => {
-                console.log('Book deleted. Reloading books...');
-                this.loadBooks();
+                    next: () => {
+                        console.log('Book deleted. Reloading books...');
+                        this.loadBooks();
 
-            },
-            error: (err) => {
-                 console.error('DELETE failed:', err);
-                this.error = 'Misslyckades att radera boken';
-                this.loading = false;
+                    },
+                    error: (err) => {
+                        console.error('DELETE failed:', err);
+                        this.error = 'Misslyckades att radera boken';
+                        this.loading = false;
 
+                    }
+                });
             }
         });
-            }
-        });
-        
+
     }
 }

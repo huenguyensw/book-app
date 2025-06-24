@@ -1,36 +1,40 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {tap} from 'rxjs/operators';
-import { environment } from '../../environments/environment.prod';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { tap, map, catchError } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
+import { Observable, of } from 'rxjs';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
   private isAuthenticated = false;
   private baseUrl = `${environment.apiUrl}/api/Auth`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   login(email: string, password: string) {
-    return this.http.post<{token: string}>(`${this.baseUrl}/login`, {email, password}).pipe(
-      tap(response => {
-        if (response.token) {
-          localStorage.setItem('token', response.token);
-          console.log('Login successful, token stored:', response.token);
-          this.isAuthenticated = true;
-        }
+    return this.http.post(`${this.baseUrl}/login`, { email, password }, { withCredentials: true }).pipe(
+      tap(() => {
+        this.isAuthenticated = true;
+        console.log('Login successful, session cookie set by backend.');
       })
     );
   }
 
   logout() {
-    localStorage.removeItem('token');
-    this.isAuthenticated = false;
+    //call the backend to clear the session cookie
+    return this.http.post(`${this.baseUrl}/logout`, {}, { withCredentials: true }).pipe(
+      tap(() => {
+        this.isAuthenticated = false;
+        console.log('Logout successful, session cookie cleared by backend.');
+      })
+    );
   }
 
-  isLoggedIn() {
-    if (typeof window !== 'undefined') {
-    return this.isAuthenticated || !!localStorage.getItem('token');
-  }
-  return false;
+  isLoggedIn(): Observable<boolean> {
+    // Check if the user is authenticated by making a request to the backend
+    return this.http.get<{ authenticated: boolean }>(`${this.baseUrl}/status`, { withCredentials: true }).pipe(
+      map(res => res.authenticated),
+      catchError(() => of(false))
+    );
   }
 }

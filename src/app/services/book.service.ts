@@ -9,48 +9,26 @@ import { environment } from "../../environments/environment";
 export class BookService {
     private baseUrl = `${environment.apiUrl}/api/books`;
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) {}
+
     getBooks() {
-        const token = localStorage.getItem('token');
-        const headers = new HttpHeaders({
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        });
-        return this.http.get<any[]>(this.baseUrl, { headers });
+        return this.http.get<any[]>(this.baseUrl, { withCredentials: true });
     }
     getBookById(id: string) {
-        const token = localStorage.getItem('token');
-        const headers = new HttpHeaders({
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        });
-        return this.http.get<any>(`${this.baseUrl}/${id}`, { headers });
+        return this.http.get<any>(`${this.baseUrl}/${id}`, { withCredentials: true });
     }
     addBook(book: any) {
-        const token = localStorage.getItem('token');
-        const headers = new HttpHeaders({
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        });
-        return this.http.post<any>(this.baseUrl, book, {headers});
+       
+        return this.http.post<any>(this.baseUrl, book, { withCredentials: true });
     }
     updateBook(id: string, book: any) {
-        const token = localStorage.getItem('token');
-        const headers = new HttpHeaders({
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        });
-        return this.http.put<any>(`${this.baseUrl}/${id}`, book, { headers });
+        
+        return this.http.put<any>(`${this.baseUrl}/${id}`, book, { withCredentials: true });
     }
     deleteBook(id: string) {
-        const token = localStorage.getItem('token');
-        const headers = new HttpHeaders({
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        });
-        return this.http.delete<any>(`${this.baseUrl}/${id}`, { headers });
+        return this.http.delete<any>(`${this.baseUrl}/${id}`, { withCredentials: true });
     }
     searchBooks(query: string) {
-        return this.http.get<any[]>(`${this.baseUrl}/search`, { params: { q: query } });
+        return this.http.get<any[]>(`${this.baseUrl}/search`, { params: { q: query }, withCredentials: true });
     }
 }
