@@ -1,17 +1,21 @@
-import { Injectable } from "@angular/core";
-import { CanActivateFn, Router } from "@angular/router";
+import { CanActivateFn, Router, UrlTree } from "@angular/router";
 import { inject } from "@angular/core";
 import { AuthService } from "../services/auth.service";
+import { map, Observable } from "rxjs";
 
-export const authGuard: CanActivateFn = (route, state) => {
+export const authGuard: CanActivateFn = (
+  route,
+  state
+): Observable<boolean | UrlTree> => {  // explicitly return Observable
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  if (authService.isLoggedIn()) {
-    return true;
-  } else {
-    // Redirect to login page if not authenticated
-    router.navigate(['/login'], { queryParams: { authError: 'true' } });
-    return false;
-  }
-}
+  return authService.isLoggedIn().pipe(
+    map(isAuth => {
+      if (isAuth) {
+        return true;
+      }
+      return router.createUrlTree(['/login'], { queryParams: { authError: 'true' } });
+    })
+  );
+};

@@ -9,7 +9,6 @@ import { MatDialogModule } from '@angular/material/dialog';
   standalone: true,
   imports: [RouterOutlet, CommonModule, RouterModule, MatDialogModule],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
 })
 export class App implements OnInit {
   protected title = 'book-app';

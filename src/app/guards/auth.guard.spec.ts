@@ -1,35 +1,57 @@
-import { authGuard } from './auth.guard';
-import { of } from 'rxjs';
-import { AuthService } from '../services/auth.service';
-import { Router } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
+import { authGuard } from './auth.guard';
+import { AuthService } from '../services/auth.service';
+import { Router, UrlTree, provideRouter } from '@angular/router';
+import { of, Observable } from 'rxjs';
+import { provideLocationMocks } from '@angular/common/testing';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Injector, runInInjectionContext } from '@angular/core';
 
 describe('authGuard', () => {
-  let authService: jasmine.SpyObj<AuthService>;
-  let router: jasmine.SpyObj<Router>;
+  let mockAuthService: jasmine.SpyObj<AuthService>;
+  let router: Router;
+
+  const mockRoute = {} as ActivatedRouteSnapshot;
+  const mockState = { url: '/dashboard' } as RouterStateSnapshot;
 
   beforeEach(() => {
-    authService = jasmine.createSpyObj('AuthService', ['isLoggedIn']);
-    router = jasmine.createSpyObj('Router', ['navigate']);
+    mockAuthService = jasmine.createSpyObj('AuthService', ['isLoggedIn']);
 
     TestBed.configureTestingModule({
       providers: [
-        { provide: AuthService, useValue: authService },
-        { provide: Router, useValue: router },
+        { provide: AuthService, useValue: mockAuthService },
+        provideRouter([]),
+        provideLocationMocks(),
       ],
+    });
+
+    router = TestBed.inject(Router);
+  });
+
+  it('should allow access if user is authenticated', (done) => {
+    mockAuthService.isLoggedIn.and.returnValue(of(true));
+
+    runInInjectionContext(TestBed.inject(Injector), () => {
+      (authGuard(mockRoute, mockState) as Observable<boolean | UrlTree>)
+        .subscribe(result => {
+          expect(result).toBeTrue();
+          done();
+        });
     });
   });
 
-  it('should allow navigation if user is logged in', () => {
-    authService.isLoggedIn.and.returnValue(of(true));
-    const result = authGuard({} as any, {} as any);
-    expect(result).toBeTrue();
-  });
+  it('should redirect to /login if user is not authenticated', (done) => {
+    mockAuthService.isLoggedIn.and.returnValue(of(false));
 
-  it('should redirect to login if not logged in', () => {
-    authService.isLoggedIn.and.returnValue(of(false));
-    const result = authGuard({} as any, {} as any);
-    expect(result).toBeFalse();
-    expect(router.navigate).toHaveBeenCalledWith(['/login'], { queryParams: { authError: 'true' } });
+    runInInjectionContext( TestBed.inject(Injector), () => {
+      (authGuard(mockRoute, mockState) as Observable<boolean | UrlTree>)
+        .subscribe(result => {
+          expect(result instanceof UrlTree).toBeTrue();
+          const urlTree = result as UrlTree;
+          expect(urlTree.toString()).toContain('/login');
+          expect(urlTree.queryParams['authError']).toBe('true');
+          done();
+        });
+    });
   });
 });

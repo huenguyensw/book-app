@@ -11,7 +11,7 @@ bootstrapApplication(App, {
   providers: [
     ...appConfig.providers || [],
     provideRouter(routes),
-    provideHttpClient(withInterceptorsFromDi()), // ✅ Recommended approach
+    provideHttpClient(withInterceptorsFromDi()), 
     {
       provide: HTTP_INTERCEPTORS,
       useClass: CsrfInterceptor,

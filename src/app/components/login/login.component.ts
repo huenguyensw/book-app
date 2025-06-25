@@ -57,7 +57,7 @@ export class LoginComponent {
                 return;
             }
 
-            if (this.loginForm.get('password')?.hasError('password')) {
+            if (this.loginForm.get('password')?.hasError('required')) {  
                 this.error = 'Lösenord är obligatoriskt.';
                 return;
             }
