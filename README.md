@@ -21,7 +21,7 @@ ng serve
 
 Kör testing en lokal utvecklings server:
 ```bash
-ng serve
+ng test
 ```
 
 
