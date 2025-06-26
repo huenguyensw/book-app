@@ -5,6 +5,7 @@ Ett Angular-projekt som fungerar som frontend för Book App - en fullstackapplik
 ## Funktioner & UI
 
 - Inloggning med e-post & lösenord
+- Registrera en ny användare
 - Lista, lägg till, redigera & ta bort böcker
 - Citat-sida
 - Skyddade sidor (AuthGuard)
