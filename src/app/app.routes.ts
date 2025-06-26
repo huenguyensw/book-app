@@ -2,9 +2,10 @@ import { Routes } from '@angular/router';
 import { authGuard  } from './guards/auth.guard';
 import { BookListComponent } from './components/books/book-list.component';
 import { AddBookForm } from './components/books/add-book.component';
-import { LoginComponent } from './components/login/login.component';
+import { LoginComponent } from './components/user/login/login.component';
 import { EditBookForm } from './components/books/edit-book.component';
 import { QuotesComponent } from './components/quotes/quotes.component';
+import { RegisterComponent } from './components/user/register/register.component';
 
 export const routes: Routes = [
     {  path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -27,6 +28,11 @@ export const routes: Routes = [
     {
         path: 'login',
         component: LoginComponent
+    },
+    {   
+        path: 'register',
+        component: RegisterComponent
+
     },
     {
         path: 'quotes',

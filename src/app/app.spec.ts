@@ -2,10 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { App } from './app';
 import { Router } from '@angular/router';
 import { PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { AuthService } from './services/auth.service';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 
 describe('App Component', () => {
   let component: App;
@@ -14,10 +15,17 @@ describe('App Component', () => {
   let router: Router;
 
   beforeEach(async () => {
-    mockAuthService = jasmine.createSpyObj('AuthService', ['logout']);
+    mockAuthService = jasmine.createSpyObj('AuthService', ['logout', 'isLoggedIn']);
+    mockAuthService.isLoggedIn.and.returnValue(of(true)); // ✅ mock login observable
+    mockAuthService.logout.and.returnValue(of({})); // ✅ mock logout observable
 
     await TestBed.configureTestingModule({
-      imports: [CommonModule, MatDialogModule, RouterTestingModule],
+      imports: [
+        App, // ✅ Import the standalone component directly
+        RouterTestingModule,
+        CommonModule,
+        MatDialogModule,
+      ],
       providers: [
         { provide: AuthService, useValue: mockAuthService },
         { provide: PLATFORM_ID, useValue: 'browser' },
@@ -36,7 +44,9 @@ describe('App Component', () => {
 
   it('should initialize with theme from localStorage', () => {
     spyOn(localStorage, 'getItem').and.returnValue('dark');
+
     component.ngOnInit();
+
     expect(component.isDarkMode).toBeTrue();
   });
 
@@ -51,6 +61,12 @@ describe('App Component', () => {
     expect(component.isDarkMode).toBeTrue();
     expect(localStorage.setItem).toHaveBeenCalledWith('theme', 'dark');
     expect(addSpy).toHaveBeenCalledWith('dark-theme');
+
+    // Toggle again
+    component.toggleTheme();
+    expect(component.isDarkMode).toBeFalse();
+    expect(localStorage.setItem).toHaveBeenCalledWith('theme', 'light');
+    expect(removeSpy).toHaveBeenCalledWith('dark-theme');
   });
 
   it('should logout and navigate to /login', () => {

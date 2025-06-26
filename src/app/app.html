@@ -14,7 +14,15 @@
         <li class="nav-item">
           <a class="nav-link" routerLink="/quotes" routerLinkActive="active">Mina Citat</a>
         </li>
-        <li class="nav-item">
+       
+        <li class="nav-item" *ngIf="!(isLoggedIn$ | async)">
+          <a class="nav-link" routerLink="/register" routerLinkActive="active">Registrera</a>
+        </li>
+        <li class="nav-item" *ngIf="!(isLoggedIn$ | async)">
+          <a class="nav-link" routerLink="/login" routerLinkActive="active">Logga in</a>
+        </li>
+
+         <li class="nav-item" *ngIf="isLoggedIn$ | async">
           <a class="nav-link" href="#" (click)="logout($event)" role="button">Logga ut</a>
         </li>
       </ul>

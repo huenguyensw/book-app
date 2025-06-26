@@ -1,0 +1,36 @@
+<div class="container mt-5">
+    <div class="card p-4">
+        <h3>Registrera Användare</h3>
+        <p>Fyll i formuläret nedan för att skapa ett nytt konto.</p>
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
+            <div class="mb-3">
+                <label for="username">Användarnamn:</label>
+                <input formControlName="username" class="form-control" type="text" id="username" />
+                <div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched"
+                    class="text-danger">
+                    Användarnamn krävs.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="email">E-post:</label>
+                <input formControlName="email" class="form-control" type="email" id="email" />
+                <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+                    class="text-danger">
+                    En giltig e-postadress krävs.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="password">Lösenord:</label>
+                <input formControlName="password" class="form-control" type="password" id="password" />
+                <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+                    class="text-danger">
+                    Lösenord måste vara minst 6 tecken långt.
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">Registrera</button>
+
+
+            <p *ngIf="successMessage" style="color: green">{{ successMessage }}</p>
+            <p *ngIf="errorMessage" style="color: red">{{ errorMessage }}</p>
+        </form>
+    </div>

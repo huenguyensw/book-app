@@ -1,8 +1,9 @@
-import { CommonModule, isPlatformBrowser  } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { RouterModule, RouterOutlet, Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { MatDialogModule } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -15,8 +16,8 @@ export class App implements OnInit {
 
   // Define dark mode toggle
   isDarkMode = false;
+  isLoggedIn$!: Observable<boolean>; 
 
-  
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -24,13 +25,21 @@ export class App implements OnInit {
 
   logout(event: Event) {
     event.preventDefault();
-    this.authService.logout();
-    this.router.navigate(['/login']);
+    this.authService.logout().subscribe(() => {
+      this.router.navigate(['/login']);
+    });
   }
 
-  
+
+
 
   ngOnInit(): void {
+    this.isLoggedIn$ = this.authService.isLoggedIn();
+    
+  this.isLoggedIn$.subscribe(status => {
+    console.log('Login status:', status);
+  });
+
     if (isPlatformBrowser(this.platformId)) {
       const theme = localStorage.getItem('theme');
       this.isDarkMode = theme === 'dark';
