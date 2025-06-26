@@ -19,6 +19,12 @@ Starta en lokal utvecklings server, kör:
 ng serve
 ```
 
+Kör testing en lokal utvecklings server:
+```bash
+ng test
+```
+
+
 När serven är igång, öppna din webläsare och navigera till `http://localhost:4200/`. Applikationen laddas om automatiskt när du ändrar någon av källfilerna.
 
 ## Live-länk
