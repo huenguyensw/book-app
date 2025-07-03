@@ -6,6 +6,8 @@ import { LoginComponent } from './components/user/login/login.component';
 import { EditBookForm } from './components/books/edit-book.component';
 import { QuotesComponent } from './components/quotes/quotes.component';
 import { RegisterComponent } from './components/user/register/register.component';
+import { AddQuoteForm } from './components/quotes/add-quote.component';
+import { EditQuoteForm } from './components/quotes/edit-quote.component';
 
 export const routes: Routes = [
     {  path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -38,4 +40,15 @@ export const routes: Routes = [
         path: 'quotes',
         component: QuotesComponent,
     },
+    {
+        path: 'quotes/edit/:id',
+        component: EditQuoteForm, 
+        canActivate: [authGuard]
+    },
+    {
+        path: 'quotes/add',
+        component: AddQuoteForm,
+        canActivate: [authGuard]
+    }
+
 ];

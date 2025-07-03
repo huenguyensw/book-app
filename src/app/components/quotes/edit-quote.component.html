@@ -1,0 +1,14 @@
+<div class="container mt-5">
+    <div class="card p-4">
+        <h3>Redigera citat</h3>
+        <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+                <input formControlName="text" class="form-control" placeholder="Citattext" />
+            </div>
+            <div class="mb-3">
+                <input formControlName="author" class="form-control" placeholder="Författare" />
+            </div>
+            <button class="btn btn-primary" [disabled]="quoteForm.invalid">Spara ändringar</button>
+        </form>
+    </div>
+</div>

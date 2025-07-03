@@ -1,10 +1,32 @@
 <div class="container mt-4">
   <h2>Mina citat</h2>
+  <a class="btn btn-success mb-3 mt-3 add-quote-button" routerLink="/quotes/add">Lägg till nytt citat</a>
+  <div *ngIf="loading && !error" class="text-center">
+    <div class="spinner-border text-primary" role="status">Laddar citat...</div>
+  </div>
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+  <!-- <pre>Quotes : {{ quotes | json }}</pre> -->
+  <div *ngIf="quotes.length === 0" class="alert alert-info text-center">Inga citat tillgängliga.</div>
+  <div *ngIf="quotes.length > 0" class="alert alert-info">
+     {{ quotes.length }} citat tillgängliga.
+  </div>
+  
+  <!-- Display quotes in a card format -->
+
   <div *ngFor="let quote of quotes" class="card mb-3">
     <div class="card-body">
       <blockquote class="blockquote mb-0">
         <p>{{ quote.text }}</p>
         <footer class="blockquote-footer">{{ quote.author }}</footer>
+        <div class="mt-0">
+          <a [routerLink]="['/quotes/edit', quote._id || quote.id]" title="Redigera">
+            <fa-icon [icon]="faEdit"></fa-icon>
+          </a>
+          |
+          <a href="#" (click)="deleteQuote(quote._id || quote.id); $event.preventDefault();" title="Radera">
+            <fa-icon [icon]="faTrash" class="text-danger"></fa-icon>
+          </a>
+        </div>
       </blockquote>
     </div>
   </div>
