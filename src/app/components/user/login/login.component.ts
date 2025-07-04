@@ -14,6 +14,7 @@ export class LoginComponent {
     loginForm: FormGroup;
     error: string | null = null;
     showAuthError = false;
+    returnUrl: string = '/books';
 
     constructor(
         private fb: FormBuilder,
@@ -33,9 +34,15 @@ export class LoginComponent {
             this.error = null;
             this.showAuthError = false;
         });
+
+        // get the return URL from query params or default to '/books'
+        this.route.queryParams.subscribe(params => {
+            this.returnUrl = params['returnUrl'] || '/books';
+        });
     }
 
     ngOnInit() {
+        console.log('LoginComponent initialized', this.router.url);
         this.route.queryParams.subscribe(params => {
             this.showAuthError = params['authError'] === 'true';
         });
@@ -64,8 +71,8 @@ export class LoginComponent {
 
             this.authService.login(useremail, password).subscribe({
                 next: () => {
-                    console.log('Login successful, navigating to /books...');
-                    this.router.navigateByUrl('/books').then(success => {
+                    console.log(`Login successful, navigating to: ${this.returnUrl}`);
+                    this.router.navigateByUrl(this.returnUrl).then(success => {
                     }).catch(err => {
                         console.error('Navigation error:', err);
                     });

@@ -3,7 +3,7 @@
     <h3>Inloggning</h3>
 
     <div class="alert alert-warning" *ngIf="showAuthError">
-      Du måste vara inloggad för att visa böcker.
+      Du måste vara inloggad för att visa böcker eller dina citat.
     </div>
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">

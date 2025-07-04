@@ -5,7 +5,6 @@
     <div class="spinner-border text-primary" role="status">Laddar citat...</div>
   </div>
   <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
-  <!-- <pre>Quotes : {{ quotes | json }}</pre> -->
   <div *ngIf="quotes.length === 0" class="alert alert-info text-center">Inga citat tillgängliga.</div>
   <div *ngIf="quotes.length > 0" class="alert alert-info">
      {{ quotes.length }} citat tillgängliga.

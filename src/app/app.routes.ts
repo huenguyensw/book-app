@@ -39,6 +39,7 @@ export const routes: Routes = [
     {
         path: 'quotes',
         component: QuotesComponent,
+        canActivate: [authGuard]
     },
     {
         path: 'quotes/edit/:id',
